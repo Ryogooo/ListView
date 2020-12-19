@@ -2,13 +2,16 @@ package sample.android.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private static final String[] names = {
             "one",
@@ -43,5 +46,22 @@ public class MainActivity extends AppCompatActivity {
 
         //ListViewにアダプターをセット
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(MainActivity.this.getApplicationContext(),SubActivity.class);
+
+        //クリックされたpositionの names と photos のID
+        String selectText = names[position];
+        int selectPhot = photos[position];
+
+        //インテントにセット
+        intent.putExtra("Text",selectText);
+        intent.putExtra("Phot",selectPhot);
+
+        startActivity(intent);
     }
 }
